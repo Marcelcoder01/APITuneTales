@@ -1,7 +1,7 @@
 const { pool } = require('../database');
 
 
-// Función de inicio de sesión
+// inicio de sesión
 async function loginUser(req, res) {
   const { username, password } = req.body;
   const sql = 'SELECT Id_user, name, last_name, email, photo FROM user WHERE email = ? AND password = ?';
@@ -27,7 +27,7 @@ async function loginUser(req, res) {
   }
 }
 
-// Exportar la función
+
 module.exports = {
   loginUser
 };
