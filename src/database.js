@@ -1,6 +1,6 @@
 const mysql = require("mysql2")
 
-const connection = mysql.createConnection({
+const connection = mysql.createPool({
     
     
     host: process.env.DB_HOST         || "tunetales.cy8l4e7adbqm.eu-west-3.rds.amazonaws.com",
