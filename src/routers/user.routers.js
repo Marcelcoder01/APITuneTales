@@ -6,6 +6,7 @@ const userController = require('../controllers/user.controller');
 
 // Ruta  de login
 router.post('/login', userController.loginUser);
+router.put('/editProfile',userController.editProfile);
 
 
 
