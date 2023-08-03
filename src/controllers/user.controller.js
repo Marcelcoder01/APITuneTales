@@ -33,7 +33,7 @@ async function loginUser(req, res) {
 //EDITAR PERFIL
 async function editProfile (req, res){
     
-  //recogemos los datos del libro a modificar por el body
+  //recogemos los datos del usuario a modificar por el body
   const {id_user, user, email, password, instagram, facebook, twitter, birth_date, music_type, description, photo} = req.body;
   const params = [
       user? user: null,
