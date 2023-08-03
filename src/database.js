@@ -16,8 +16,12 @@ const connection = mysql.createPool({
     queueLimit: 0,
     enableKeepAlive: true,
     keepAliveInitialDelay: 0
-  
 
 });
+
+console.log("----------------------------------------------------------------------------------------------------")
+console.log("------------------------------------------Connection is OK------------------------------------------")
+console.log("----------------------------------------------------------------------------------------------------")
+
 
 module.exports = connection
