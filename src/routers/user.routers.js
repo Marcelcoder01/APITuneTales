@@ -3,7 +3,7 @@ const userCtrl = require('../controllers/user.controller');
 const router = Router();
 const publicationCtrl = require('../controllers/publication.controller');
 const express = require('express');
-const userCtrl = require('../controllers/user.controller');
+
 
 
 
