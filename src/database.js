@@ -1,6 +1,6 @@
-const mysql = require("mysql2")
+const mysql = require("mysql2/promise")
 
-const connection = mysql.createPool({
+const pool = mysql.createPool({
     
     
     host: process.env.DB_HOST         || "tunetales.cy8l4e7adbqm.eu-west-3.rds.amazonaws.com",
@@ -16,8 +16,12 @@ const connection = mysql.createPool({
     queueLimit: 0,
     enableKeepAlive: true,
     keepAliveInitialDelay: 0
-  
 
 });
 
-module.exports = {connection}
+console.log("----------------------------------------------------------------------------------------------------")
+console.log("------------------------------------------Connection is OK------------------------------------------")
+console.log("----------------------------------------------------------------------------------------------------")
+
+
+module.exports = { pool }
