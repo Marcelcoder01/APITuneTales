@@ -67,5 +67,5 @@ async function editProfile (req, res){
 
 module.exports = {
   loginUser,
-  editProfile 
+  editProfile
 };
