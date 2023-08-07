@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const userController = require('../controllers/user.controller');
+const userCtrl = require('../controllers/user.controller');
 
 
 
-// Ruta  de login
-router.post('/login', userController.loginUser);
-router.put('/editProfile',userController.editProfile);
+// Rutas de usuario
+router.put('/editProfile',userCtrl.editProfile);
+router.get('/profile',userCtrl.consultaSeguidor);
+router.post('/profile', userCtrl.addSeguidor);
+router.delete('/profile', userCtrl.delSeguidor)
 
 
 
