@@ -1,23 +1,21 @@
 const {Router} = require("express");
-const userCtrl = require('../controllers/user.controller');
 const router = Router();
+//const express = require('express');
+const userCtrl = require('../controllers/user.controller');
 const publicationCtrl = require('../controllers/publication.controller');
-const express = require('express');
 
 
-
-
-
-// Ruta  de login
+// Rutas de usuario
 router.post('/login', userCtrl.loginUser);
-router.put('/editProfile',userCtrl.editProfile);
 router.post('/register', userCtrl.addUser);
+router.put('/editProfile',userCtrl.editProfile);
+router.get('/profile',userCtrl.consultaSeguidor);
+router.post('/profile', userCtrl.addSeguidor);
+router.delete('/profile', userCtrl.delSeguidor)
+
 // Rutas publicacion
 router.post("/publicacion", publicationCtrl.postPublication);
 router.put("/publicacion", publicationCtrl.putPublication);
 router.delete("/publicacion",publicationCtrl.deletePublication);
-
-
-
 
 module.exports = router; 
