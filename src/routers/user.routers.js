@@ -11,7 +11,10 @@ const express = require('express');
 // Ruta  de login
 router.post('/login', userCtrl.loginUser);
 router.put('/editProfile',userCtrl.editProfile);
+
+//Ruta de registro 
 router.post('/register', userCtrl.addUser);
+
 // Rutas publicacion
 router.post("/publicacion", publicationCtrl.postPublication);
 router.put("/publicacion", publicationCtrl.putPublication);

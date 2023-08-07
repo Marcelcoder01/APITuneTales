@@ -30,7 +30,7 @@ async function loginUser(req, res) {
   }
 
 
-
+//FUNCION REGISTER
 
 
 async function addUser(req, res){
