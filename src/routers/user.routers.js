@@ -18,4 +18,4 @@ router.post("/publicacion", publicationCtrl.postPublication);
 router.put("/publicacion", publicationCtrl.putPublication);
 router.delete("/publicacion",publicationCtrl.deletePublication);
 
-module.exports = router; 
+module.exports = router;
