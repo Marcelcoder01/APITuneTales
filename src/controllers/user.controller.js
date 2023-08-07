@@ -8,7 +8,9 @@ async function loginUser(req, res) {
   const params = [user, password]; 
 
   try {
-    const [rows] = await pool.promise().query(sql, params);
+    // const [rows] = await pool.promise().query(sql, params);
+    const [rows] = await pool.query(sql, params);
+
 
     if (rows.length > 0) {
       const userData = rows[0];
