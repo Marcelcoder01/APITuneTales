@@ -3,6 +3,7 @@ const {pool} = require("../database")
 
 
 
+
 // FUNCION LOGIN 
 
 
@@ -30,7 +31,7 @@ async function loginUser(req, res) {
   }
 
 
-
+// FUNCION REGISTER
 
 
 async function addUser(req, res){
@@ -40,7 +41,7 @@ async function addUser(req, res){
     const params = [user, email, password, birth_date]
 
     try{
-        const [result] = await connection.query(sql, params)
+        const [result] = await pool.query(sql, params)
         res.send(result);
     }   catch(error) {
         res.send(error);
