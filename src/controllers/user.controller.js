@@ -31,7 +31,7 @@ async function addUser(req, res){
   const params = [user, email, password, birth_date]
 
   try{
-      const [result] = await connection.query(sql, params)
+      const [result] = await pool.query(sql, params)
       res.send(result);
   }   catch(error) {
       res.send(error);
