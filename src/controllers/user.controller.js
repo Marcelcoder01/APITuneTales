@@ -59,13 +59,18 @@ async function editProfile (req, res){
 
   //modificamos la informacion del usuario
   //cambiar el id_user
-  let sql = `UPDATE usuarios SET user = COALESCE(?,user), email = COALESCE(?,email), password = COALESCE(?,password), instagram = COALESCE(?,instagram), facebook = COALESCE(?,facebook), twitter = COALESCE(?,twitter), birth_date = COALESCE(?,birth_date), music_type = COALESCE(?,music_type), description = COALESCE(?,description), photo = COALESCE(?,photo) WHERE id_user = 0;`;
+  let sql = `UPDATE usuarios SET user = COALESCE(?,user), email = COALESCE(?,email), password = COALESCE(?,password), instagram = COALESCE(?,instagram), facebook = COALESCE(?,facebook), twitter = COALESCE(?,twitter), birth_date = COALESCE(?,birth_date), music_type = COALESCE(?,music_type), description = COALESCE(?,description), photo = COALESCE(?,photo) WHERE id_user = ?;`;
 
   try {
       //peticion sql a la BBDD
       const [result] = await pool.query(sql, params);
-      console.log(result);
-      res.send(result);
+
+    // Verificamos si se actualizó algún registro en la base de datos
+    if (result.affectedRows > 0) {
+      let selectSql = `SELECT * FROM usuarios WHERE id_user = ?;`;
+      const [selectResult] = await pool.query(selectSql, [id_user]);
+      res.send(selectResult[0]);
+    }
   } 
   catch (error) {
   console.log(error); 
