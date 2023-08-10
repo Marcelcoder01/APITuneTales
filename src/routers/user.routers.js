@@ -4,6 +4,8 @@ const router = Router();
 const userCtrl = require('../controllers/user.controller');
 const publicationCtrl = require('../controllers/publication.controller');
 const eventCtrl = require('../controllers/events.controller');
+const express = require('express');
+const top3publicacionCtrl = require('../controllers/top3publication')
 
 
 // Rutas de usuario
@@ -19,6 +21,8 @@ router.post("/publicacion", publicationCtrl.postPublication);
 router.put("/publicacion", publicationCtrl.putPublication);
 router.delete("/publicacion",publicationCtrl.deletePublication);
 
+//ruta top3publicacion
+router.get("/top3publicaciones", top3publicacionCtrl.getTop3Publicaciones);
 
 // Rutas eventos
 
