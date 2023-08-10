@@ -1,7 +1,7 @@
 const { pool } = require('../database');
 
 async function getPublications (req, res){
-    //seleccionamos todos los libros cuyo id_user sea igual que el usuario logeado
+    //seleccionamos todas las publicaciones
     let sql = `SELECT * FROM publicaciones`;
     
     //peticion sql a la BBDD
@@ -13,6 +13,33 @@ async function getPublications (req, res){
     catch (error) {
     console.log(error); 
     }
+}
+
+async function getPublicationsParaTi (req,res){
+
+    const { id_user, user } = req.query; 
+    const params = [id_user, user]; 
+
+    //seleccionamos todas las publicaciones del los usuarios que sigue el usuario logueado
+    let sql = `SELECT * FROM publicaciones p
+    JOIN seguidores s ON p.id_user = s.id_seguido
+    WHERE s.id_user = ?;`;
+
+    if (user != undefined){
+        sql = `SELECT *
+        FROM publicaciones p
+        JOIN usuarios u ON p.id_user = u.id_user
+        WHERE u.user = '${user}';`;
+    }
+
+    try {
+        //peticion sql a la BBDD
+        const [result] = await pool.query(sql, params);
+        res.send(result);
+      } 
+        catch (error) {
+        console.log(error); 
+      }
 }
 
 async function postPublication (req, res) {
@@ -77,4 +104,4 @@ async function deletePublication (req, res) {
     }
 }
 
-module.exports = {getPublications, postPublication, putPublication, deletePublication}
+module.exports = {getPublications, getPublicationsParaTi, postPublication, putPublication, deletePublication}
