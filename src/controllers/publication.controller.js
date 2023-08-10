@@ -1,4 +1,19 @@
+const { pool } = require('../database');
 
+async function getPublications (req, res){
+    //seleccionamos todos los libros cuyo id_user sea igual que el usuario logeado
+    let sql = `SELECT * FROM publicaciones`;
+    
+    //peticion sql a la BBDD
+    try {
+        //devuelve un array de publicaciones result = publicaciones[]
+        const [result] = await pool.query(sql);
+        res.send(result);
+    } 
+    catch (error) {
+    console.log(error); 
+    }
+}
 
 async function postPublication (req, res) {
 
@@ -62,4 +77,4 @@ async function deletePublication (req, res) {
     }
 }
 
-module.exports = {postPublication, putPublication, deletePublication}
+module.exports = {getPublications, postPublication, putPublication, deletePublication}

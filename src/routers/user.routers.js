@@ -27,4 +27,7 @@ router.put("/events", eventCtrl.editEvent);
 router.get("/events", eventCtrl.getEvent);
 router.delete("/events", eventCtrl.deleteEvent);
 
+//comunidad
+router.get('/comunidad', publicationCtrl.getPublications);
+
 module.exports = router;
