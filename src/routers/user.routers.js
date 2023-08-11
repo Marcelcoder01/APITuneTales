@@ -34,4 +34,7 @@ router.delete("/events", eventCtrl.deleteEvent);
 //comunidad
 router.get('/comunidad', publicationCtrl.getPublications);
 
+//paraTi
+router.get('/paraTi', publicationCtrl.getPublicationsParaTi);
+
 module.exports = router;
