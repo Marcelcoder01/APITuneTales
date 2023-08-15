@@ -53,7 +53,7 @@ async function addEvent(req, res){
   async function getEvent(req, res){
 
     let sql = `SELECT * FROM TuneTales.eventos WHERE id_user = ?;`
-    const{id_user} = req.body
+    const{id_user} = req.query
     const params = [id_user]
   
     try{
@@ -63,10 +63,23 @@ async function addEvent(req, res){
         res.send(error);
     }
   }
+
+  async function getAllEvent(req, res) {
+    let sql = `SELECT * FROM TuneTales.eventos;`
+  
+    try {
+        const [result] = await pool.query(sql);
+        res.send(result);
+    } catch (error) {
+        res.status(500).send({ error: 'Error al obtener los eventos' });
+    }
+}
+  
   
 module.exports = {
     addEvent,
     editEvent,
     deleteEvent,
-    getEvent
+    getEvent,
+    getAllEvent
   };

@@ -29,6 +29,7 @@ router.get("/top3publicaciones", top3publicacionCtrl.getTop3Publicaciones);
 router.post("/events", eventCtrl.addEvent);
 router.put("/events", eventCtrl.editEvent);
 router.get("/events", eventCtrl.getEvent);
+router.get("/eventsAll", eventCtrl.getAllEvent);
 router.delete("/events", eventCtrl.deleteEvent);
 
 //comunidad
