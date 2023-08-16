@@ -13,6 +13,7 @@ router.post('/login', userCtrl.loginUser);
 router.put('/editProfile',userCtrl.editProfile);
 router.post('/register', userCtrl.addUser);
 // Rutas publicacion
+router.get("/publicacion", publicationCtrl.getPublication);
 router.post("/publicacion", publicationCtrl.postPublication);
 router.put("/publicacion", publicationCtrl.putPublication);
 router.delete("/publicacion",publicationCtrl.deletePublication);
