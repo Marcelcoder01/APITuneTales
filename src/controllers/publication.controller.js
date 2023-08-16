@@ -3,7 +3,6 @@ const { pool } = require('../database');
 async function getPublications (req, res){
     //seleccionamos todas las publicaciones
     let sql = `SELECT * FROM publicaciones`;
-    const {pool} = require("../database")
 
     //peticion sql a la BBDD
     try {
@@ -136,4 +135,4 @@ async function deletePublication (req, res) {
     }
 }
 
-module.exports = {postPublication, putPublication, deletePublication}
+module.exports = {getPublication, postPublication, putPublication, deletePublication, getPublications, getPublicationsParaTi}
