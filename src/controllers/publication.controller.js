@@ -63,7 +63,7 @@ async function getPublication (req, res) {
     }
 }
 
-// añadir publicación utilizando id_publicacion desde postman 
+// añadir publicación 
 async function postPublication (req, res) {
 
     let sql = `INSERT INTO TuneTales.publicaciones (link_soundCloud, name_letter, letter, history) VALUES (?,?,?,?)`
