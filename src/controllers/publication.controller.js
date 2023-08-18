@@ -55,7 +55,7 @@ async function getPublication (req, res) {
 
     try {
 
-        let [result] = await pool.promise().query(sql, params);
+        let [result] = await pool.query(sql, params);
         res.send(result);
     }
     catch(err) {
@@ -75,7 +75,7 @@ async function postPublication (req, res) {
 
     try {
 
-        let [result] = await pool.promise().query(sql, params);
+        let [result] = await pool.query(sql, params);
         res.send(result);
         console.log("Publicación creada con exito")
     }
@@ -104,7 +104,7 @@ async function putPublication (req, res) {
 
     try {
 
-        let [result] = await pool.promise().query(sql, params);
+        let [result] = await pool.query(sql, params);
         res.send(result);
         console.log("Publicacion modificada correctamente")
     }
@@ -125,7 +125,7 @@ async function deletePublication (req, res) {
 
     try {
 
-        let [result] = await pool.promise().query(sql, params);
+        let [result] = await pool.query(sql, params);
         res.send(result);
         console.log("Publicacion eliminada correctamente")
     }
