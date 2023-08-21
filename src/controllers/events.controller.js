@@ -39,12 +39,16 @@ async function addEvent(req, res){
   async function deleteEvent(req, res){
 
     let sql = `DELETE FROM TuneTales.eventos WHERE id_evento = ?;`
-    const{id_evento} = req.body
+    const{id_evento} = req.body;
     const params = [id_evento]
   
     try{
         const [result] = await pool.query(sql, params)
         res.send(result);
+
+        console.log("Aqui está el problema: " + id_evento)
+        console.log("funciona el delete");
+        
     }   catch(error) {
         res.send(error);
     }
@@ -65,11 +69,12 @@ async function addEvent(req, res){
   }
 
   async function getAllEvent(req, res) {
-    let sql = `SELECT * FROM TuneTales.eventos;`
+
   
     try {
+        let sql = `SELECT * FROM TuneTales.eventos;`
         const [result] = await pool.query(sql);
-        res.send(result);
+        res.json(result);
     } catch (error) {
         res.status(500).send({ error: 'Error al obtener los eventos' });
     }
