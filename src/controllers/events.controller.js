@@ -4,9 +4,9 @@ const { pool } = require('../database');
 
 async function addEvent(req, res){
 
-    let sql = `INSERT INTO TuneTales.eventos (name_event, date, hour, place, photo, description) VALUES (?, ?, ?, ?, ?, ?);`
-    const{name_event, date, hour, place, photo, description} = req.body
-    const params = [name_event, date, hour, place, photo, description]
+    let sql = `INSERT INTO TuneTales.eventos (name_event, date, hour, place, photo, id_user, description) VALUES (?, ?, ?, ?, ?, ?, ?);`
+    const{name_event, date, hour, place, photo, id_user, description} = req.body
+    const params = [name_event, date, hour, place, photo, id_user, description]
   
     try{
         const [result] = await pool.query(sql, params)
@@ -46,8 +46,6 @@ async function addEvent(req, res){
         const [result] = await pool.query(sql, params)
         res.send(result);
 
-        console.log("Aqui está el problema: " + id_evento)
-        console.log("funciona el delete");
         
     }   catch(error) {
         res.send(error);
