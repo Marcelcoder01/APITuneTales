@@ -3,6 +3,8 @@ const router = Router();
 //const express = require('express');
 const userCtrl = require('../controllers/user.controller');
 const publicationCtrl = require('../controllers/publication.controller');
+const commentsCtrl = require('../controllers/coments.controller')
+const likesCtrl = require('../controllers/likes.controller')
 const eventCtrl = require('../controllers/events.controller');
 const express = require('express');
 const top3publicacionCtrl = require('../controllers/top3publication')
@@ -17,7 +19,7 @@ router.post('/profile', userCtrl.addSeguidor);
 router.delete('/profile', userCtrl.delSeguidor)
 
 // Rutas publicacion
-router.get("/publicacion", publicationCtrl.getPublication);
+router.get('/publicacion', publicationCtrl.getPublication);
 router.post("/publicacion", publicationCtrl.postPublication);
 router.put("/publicacion", publicationCtrl.putPublication);
 router.delete("/publicacion",publicationCtrl.deletePublication);
@@ -38,5 +40,17 @@ router.get('/comunidad', publicationCtrl.getPublications);
 
 //paraTi
 router.get('/paraTi', publicationCtrl.getPublicationsParaTi);
+
+
+//comentarios
+
+router.post('/comentario', commentsCtrl.postComment);
+router.get('/comentarios', commentsCtrl.getComments);
+
+
+//likes 
+
+router.put('likes', likesCtrl.postLike);
+router.delete('/likes/:id_publicacion/:id_user', likesCtrl.deleteLike);
 
 module.exports = router;

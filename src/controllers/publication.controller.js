@@ -36,10 +36,10 @@ async function getPublicationsParaTi (req,res){
         //peticion sql a la BBDD
         const [result] = await pool.query(sql, params);
         res.send(result);
-      } 
+    } 
         catch (error) {
         console.log(error); 
-      }
+    }
 }
 
 // obtener publicacion
@@ -47,7 +47,7 @@ async function getPublication (req, res) {
 
     let sql = `SELECT * FROM publicaciones WHERE id_publicacion = ?;`
     
-    const id_publicacion = req.params.id_publicacion;
+    const id_publicacion = req.query.id_publicacion;
     const params = [id_publicacion];
      // const id_publicacion = req.body;
 
@@ -55,7 +55,7 @@ async function getPublication (req, res) {
 
     try {
 
-        let [result] = await pool.promise().query(sql, params);
+        let [result] = await pool.query(sql, params);
         res.send(result);
     }
     catch(err) {
@@ -66,16 +66,16 @@ async function getPublication (req, res) {
 // añadir publicación 
 async function postPublication (req, res) {
 
-    let sql = `INSERT INTO TuneTales.publicaciones (link_soundCloud, name_letter, letter, history) VALUES (?,?,?,?)`
+    let sql = `INSERT INTO TuneTales.publicaciones (id_user, link_soundCloud, name_letter, letter, history) VALUES (?,?,?,?,?)`
 
-    const {link_soundCloud, name_letter, letter, history} = req.body;
-    const params = [link_soundCloud, name_letter, letter, history];
+    const {id_user, link_soundCloud, name_letter, letter, history} = req.body;
+    const params = [id_user, link_soundCloud, name_letter, letter, history];
 
     console.log(sql)
 
     try {
 
-        let [result] = await pool.promise().query(sql, params);
+        let [result] = await pool.query(sql, params);
         res.send(result);
         console.log("Publicación creada con exito")
     }
@@ -104,7 +104,7 @@ async function putPublication (req, res) {
 
     try {
 
-        let [result] = await pool.promise().query(sql, params);
+        let [result] = await pool.query(sql, params);
         res.send(result);
         console.log("Publicacion modificada correctamente")
     }
@@ -125,7 +125,7 @@ async function deletePublication (req, res) {
 
     try {
 
-        let [result] = await pool.promise().query(sql, params);
+        let [result] = await pool.query(sql, params);
         res.send(result);
         console.log("Publicacion eliminada correctamente")
     }
