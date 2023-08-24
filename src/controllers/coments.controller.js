@@ -9,6 +9,7 @@ async function postComment (req, res) {
     const params = [id_publicacion, comentario, id_user_comment];
     
     console.log(sql);
+    console.log("este es un" + id_publicacion)
 
     try {
 
