@@ -1,4 +1,14 @@
 const { pool } = require('../database');
+const {Storage} = require('@google-cloud/storage');
+const fs = require('fs');
+const credentials = require('../tunetalesstorage.json');
+
+
+//configuracion storage de Google Cloud
+const storage = new Storage({
+  credentials: credentials,
+  projectId: 'tunetalesstorage',
+});
 
 // FUNCION LOGIN 
 
@@ -40,25 +50,40 @@ async function addUser(req, res){
 
 //EDITAR PERFIL
 async function editProfile (req, res){
-    
-  //recogemos los datos del libro a modificar por el body
-  const {id_user, user, email, password, instagram, facebook, twitter, birth_date, music_type, description, photo} = req.body;
+  const photo = req.file;
+  const {id_user, user, email, password, instagram, facebook, twitter, birth_date, music_type, description} = JSON.parse(req.body.update_user);
+
+  //falta comprobar si llega alguna foto o no
+  const bucketName = 'tunetalesfiles';
+  const localFilePath = photo.path; // Ruta local al archivo original
+  const fileName = localFilePath.replace(/^uploads\\/, '');
+
+  const bucket = storage.bucket(bucketName);
+  const file = bucket.file(`imagenes/${fileName}`); 
+
+  // Lee el contenido del archivo local
+  const fileContent = fs.readFileSync(localFilePath);
+
+  // Sube el archivo al bucket
+  await file.save(fileContent);
+
+  const publicUrl = `https://storage.googleapis.com/${bucketName}/${file.name}`;
+
   const params = [
-      user? user: null,
-      email? email: null,
-      password? password: null,
-      instagram? instagram: null,
-      facebook? facebook: null,
-      twitter? twitter: null,
-      birth_date? birth_date: null,
-      music_type? music_type: null,
-      description? description: null,
-      photo? photo: null,
-      id_user? id_user: null,
+    user? user: null,
+    email? email: null,
+    password? password: null,
+    instagram? instagram: null,
+    facebook? facebook: null,
+    twitter? twitter: null,
+    birth_date? birth_date: null,
+    music_type? music_type: null,
+    description? description: null,
+    photo? publicUrl: null,
+    id_user? id_user: null,
   ];
 
-  //modificamos la informacion del usuario
-  //cambiar el id_user
+  // actualizamos photo con la nueva url obtenida
   let sql = `UPDATE usuarios SET user = COALESCE(?,user), email = COALESCE(?,email), password = COALESCE(?,password), instagram = COALESCE(?,instagram), facebook = COALESCE(?,facebook), twitter = COALESCE(?,twitter), birth_date = COALESCE(?,birth_date), music_type = COALESCE(?,music_type), description = COALESCE(?,description), photo = COALESCE(?,photo) WHERE id_user = ?;`;
 
   try {
@@ -73,9 +98,11 @@ async function editProfile (req, res){
     }
   } 
   catch (error) {
-  console.log(error); 
+    console.log(error);
+    res.send(error); 
   }
 }
+
 
 //funcion que consulta si un usuario sigue a otro
 async function consultaSeguidor(req, res){

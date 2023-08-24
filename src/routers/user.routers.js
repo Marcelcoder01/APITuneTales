@@ -1,17 +1,32 @@
 const {Router} = require("express");
 const router = Router();
-//const express = require('express');
 const userCtrl = require('../controllers/user.controller');
 const publicationCtrl = require('../controllers/publication.controller');
 const eventCtrl = require('../controllers/events.controller');
 const express = require('express');
-const top3publicacionCtrl = require('../controllers/top3publication')
+const top3publicacionCtrl = require('../controllers/top3publication');
+const multer = require('multer');
+
+  function uploadFiles(){
+    //definimos donde se van a almacenar los archivos en nuestro servidor local y un nombre unico para cada archivo
+    const storage_multer = multer.diskStorage({
+        destination: './uploads',
+        filename: function (_req, file, cb) {
+            var extension = file.originalname.slice(file.originalname.lastIndexOf('.'));
+            cb(null, Date.now() + extension )
+        }
+    })
+
+    const upload = multer({ storage: storage_multer }).single('photo');
+    return upload;
+  }
 
 
 // Rutas de usuario
 router.post('/login', userCtrl.loginUser);
 router.post('/register', userCtrl.addUser);
-router.put('/editProfile',userCtrl.editProfile);
+router.put('/editProfile',uploadFiles(), userCtrl.editProfile);
+
 router.get('/profile',userCtrl.consultaSeguidor);
 router.post('/profile', userCtrl.addSeguidor);
 router.delete('/profile', userCtrl.delSeguidor)

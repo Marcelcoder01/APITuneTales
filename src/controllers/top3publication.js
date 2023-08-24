@@ -11,7 +11,7 @@ async function getTop3Publicaciones(req, res) {
       LIMIT 3
     `);
 
-    console.log('Top Publicaciones:', rows);
+    // console.log('Top Publicaciones:', rows);
    
     res.json(rows);
   } catch (error) {

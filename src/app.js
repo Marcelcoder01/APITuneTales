@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const userRouter = require("./routers/user.routers");
 const errorHandling = require ("./error/errorHandling");
+const multer =  require ('multer');
 
 const app = express();
 
@@ -20,5 +21,7 @@ app.use((req, res, next)=>{
 })
 
 app.use(errorHandling);
+app.use(multer);
+
 
 module.exports = app;
