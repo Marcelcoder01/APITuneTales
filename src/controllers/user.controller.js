@@ -53,21 +53,24 @@ async function editProfile (req, res){
   const photo = req.file;
   const {id_user, user, email, password, instagram, facebook, twitter, birth_date, music_type, description} = JSON.parse(req.body.update_user);
 
-  //falta comprobar si llega alguna foto o no
-  const bucketName = 'tunetalesfiles';
-  const localFilePath = photo.path; // Ruta local al archivo original
-  const fileName = localFilePath.replace(/^uploads\\/, '');
+  const publicUrl = null;
+  
+  if (req.file != undefined){
+    const bucketName = 'tunetalesfiles';
+    const localFilePath = photo.path; // Ruta local al archivo original
+    const fileName = localFilePath.replace(/^uploads\\/, '');
 
-  const bucket = storage.bucket(bucketName);
-  const file = bucket.file(`imagenes/${fileName}`); 
+    const bucket = storage.bucket(bucketName);
+    const file = bucket.file(`imagenes/${fileName}`); 
 
-  // Lee el contenido del archivo local
-  const fileContent = fs.readFileSync(localFilePath);
+    // Lee el contenido del archivo local
+    const fileContent = fs.readFileSync(localFilePath);
 
-  // Sube el archivo al bucket
-  await file.save(fileContent);
+    // Sube el archivo al bucket
+    await file.save(fileContent);
 
-  const publicUrl = `https://storage.googleapis.com/${bucketName}/${file.name}`;
+    publicUrl = `https://storage.googleapis.com/${bucketName}/${file.name}`;
+  }
 
   const params = [
     user? user: null,
