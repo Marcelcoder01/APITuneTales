@@ -1,7 +1,7 @@
 const { pool } = require('../database');
 
 async function getTop3Publicaciones(req, res) {
-  console.log('aqui veo si entra en la funcion ');
+  // console.log('aqui veo si entra en la funcion ');
 
   try {
     const [rows, fields] = await pool.query(`
