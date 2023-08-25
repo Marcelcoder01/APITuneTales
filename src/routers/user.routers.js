@@ -42,8 +42,8 @@ router.get("/top3publicaciones", top3publicacionCtrl.getTop3Publicaciones);
 
 // Rutas eventos
 
-router.post("/events", eventCtrl.addEvent);
-router.put("/events", eventCtrl.editEvent);
+router.post("/events",uploadFiles(), eventCtrl.addEvent);
+router.put("/events", uploadFiles(), eventCtrl.editEvent);
 router.get("/events", eventCtrl.getEvent);
 router.get("/eventsAll", eventCtrl.getAllEvent);
 router.delete("/events", eventCtrl.deleteEvent);

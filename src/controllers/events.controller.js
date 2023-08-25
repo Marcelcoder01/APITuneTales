@@ -3,10 +3,29 @@ const { pool } = require('../database');
 
 
 async function addEvent(req, res){
+    const photo = req.file;
+    const{name_event, date, hour, place, id_user, description}  = JSON.parse(req.body.update_event);
+
+    let publicUrl = null;
+  
+    if (req.file != undefined){
+      const bucketName = 'tunetalesfiles';
+      const localFilePath = photo.path; // Ruta local al archivo original
+      const fileName = localFilePath.replace(/^uploads\\/, '');
+  
+      const bucket = storage.bucket(bucketName);
+      const file = bucket.file(`imagenes/${fileName}`); 
+          // Lee el contenido del archivo local
+    const fileContent = fs.readFileSync(localFilePath);
+
+    // Sube el archivo al bucket
+    await file.save(fileContent);
+    publicUrl = `https://storage.googleapis.com/${bucketName}/${file.name}`;
+  }
 
     let sql = `INSERT INTO TuneTales.eventos (name_event, date, hour, place, photo, id_user, description) VALUES (?, ?, ?, ?, ?, ?, ?);`
-    const{name_event, date, hour, place, photo, id_user, description} = req.body
-    const params = [name_event, date, hour, place, photo, id_user, description]
+     
+    const params = [name_event, date, hour, place, publicUrl, id_user, description]
   
     try{
         const [result] = await pool.query(sql, params)
@@ -17,16 +36,37 @@ async function addEvent(req, res){
   }
 
   async function editEvent(req, res){
+    const photo = req.file;
+    const{name_event, date, hour, place, description, id_evento}  = JSON.parse(req.body.update_event);
 
-    let sql = `UPDATE TuneTales.eventos SET name_event = COALESCE(?,name_event), date = COALESCE(?,date), hour = COALESCE(?,hour), place = COALESCE(?,place), photo = COALESCE(?,photo), description = COALESCE(?,description) WHERE id_evento = ?;`
-    const{name_event, date, hour, place, photo, description, id_evento} = req.body
+    let publicUrl = null;
+  
+    if (req.file != undefined){
+      const bucketName = 'tunetalesfiles';
+      const localFilePath = photo.path; // Ruta local al archivo original
+      const fileName = localFilePath.replace(/^uploads\\/, '');
+  
+      const bucket = storage.bucket(bucketName);
+      const file = bucket.file(`imagenes/${fileName}`); 
+          // Lee el contenido del archivo local
+    const fileContent = fs.readFileSync(localFilePath);
+
+    // Sube el archivo al bucket
+    await file.save(fileContent);
+    publicUrl = `https://storage.googleapis.com/${bucketName}/${file.name}`;
+  }
+
+
     const params = [name_event? name_event: null, 
                     date? date: null, 
                     hour? hour: null,
                     place? place: null, 
-                    photo? photo: null, 
+                    photo? publicUrl: null, 
                     description? description: null,
                     id_evento? id_evento:null]
+
+    let sql = `UPDATE TuneTales.eventos SET name_event = COALESCE(?,name_event), date = COALESCE(?,date), hour = COALESCE(?,hour), place = COALESCE(?,place), photo = COALESCE(?,photo), description = COALESCE(?,description) WHERE id_evento = ?;`
+
   
     try{
         const [result] = await pool.query(sql, params)
@@ -35,7 +75,7 @@ async function addEvent(req, res){
         res.send(error);
     }
   }
-
+  
   async function deleteEvent(req, res){
 
     let sql = `DELETE FROM TuneTales.eventos WHERE id_evento = ?;`
