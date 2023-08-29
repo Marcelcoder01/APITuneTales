@@ -33,7 +33,7 @@ router.delete('/profile', userCtrl.delSeguidor)
 
 // Rutas publicacion
 router.get("/publicacion", publicationCtrl.getPublication);
-router.post("/publicacion", publicationCtrl.postPublication);
+router.post("/publicacion", uploadFiles(), publicationCtrl.postPublication);
 router.put("/publicacion", publicationCtrl.putPublication);
 router.delete("/publicacion",publicationCtrl.deletePublication);
 

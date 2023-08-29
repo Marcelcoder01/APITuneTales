@@ -1,4 +1,13 @@
 const { pool } = require('../database');
+const {Storage} = require('@google-cloud/storage');
+const fs = require('fs');
+const credentials = require('../tunetalesstorage.json');
+
+//configuracion storage de Google Cloud
+const storage = new Storage({
+    credentials: credentials,
+    projectId: 'tunetalesstorage',
+  });
 
 async function getPublications (req, res){
     //seleccionamos todas las publicaciones
@@ -65,19 +74,43 @@ async function getPublication (req, res) {
 
 // añadir publicación utilizando id_publicacion desde postman 
 async function postPublication (req, res) {
+    const photo = req.file;
+    const {id_user, multimedia, name_letter, letter, history} = req.body;
 
-    let sql = `INSERT INTO TuneTales.publicaciones (link_soundCloud, name_letter, letter, history) VALUES (?,?,?,?)`
+    let publicUrl = null;
+  
+    if (req.file != undefined){
+        const bucketName = 'tunetalesfiles';
+        const localFilePath = photo.path; // Ruta local al archivo original
+        const fileName = localFilePath.replace(/^uploads\\/, '');
 
-    const {link_soundCloud, name_letter, letter, history} = req.body;
-    const params = [link_soundCloud, name_letter, letter, history];
+        const bucket = storage.bucket(bucketName);
+        const file = bucket.file(`imagenes/${fileName}`); 
 
-    console.log(sql)
+        // Lee el contenido del archivo local
+        const fileContent = fs.readFileSync(localFilePath);
+
+        // Sube el archivo al bucket
+        await file.save(fileContent);
+
+        publicUrl = `https://storage.googleapis.com/${bucketName}/${file.name}`;
+    }
+
+    const params = [
+        id_user? id_user: null,
+        multimedia? multimedia: null,
+        name_letter? name_letter: null,
+        letter? letter: null,
+        history? history: null,
+        photo? publicUrl: null,
+    ];
+    
+    let sql = `INSERT INTO publicaciones (id_user, multimedia, name_letter, letter, history, likes, image) VALUES (?,?,?,?,?,0,?)`
 
     try {
 
         let [result] = await pool.query(sql, params);
         res.send(result);
-        console.log("Publicación creada con exito")
     }
     catch(err) {
         console.log(err);

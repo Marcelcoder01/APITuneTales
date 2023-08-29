@@ -36,7 +36,7 @@ async function loginUser(req, res) {
 
 async function addUser(req, res){
 
-  let sql = `INSERT INTO TuneTales.usuarios (user, email, password, birth_date) VALUES (?, ?, ?, ?);`
+  let sql = `INSERT INTO TuneTales.usuarios (user, email, password, birth_date, photo) VALUES (?, ?, ?, ?, "assets/img/sirena.png");`
   const{user, email, password, birth_date} = req.body
   const params = [user, email, password, birth_date]
 
@@ -53,7 +53,7 @@ async function editProfile (req, res){
   const photo = req.file;
   const {id_user, user, email, password, instagram, facebook, twitter, birth_date, music_type, description} = JSON.parse(req.body.update_user);
 
-  const publicUrl = null;
+  let publicUrl = null;
   
   if (req.file != undefined){
     const bucketName = 'tunetalesfiles';
