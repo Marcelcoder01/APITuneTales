@@ -1,20 +1,65 @@
 const { pool } = require('../database');
+const {Storage} = require('@google-cloud/storage');
+const fs = require('fs');
+const credentials = require('../tunetalesstorage.json');
 
+
+//configuracion storage de Google Cloud
+const storage = new Storage({
+  credentials: credentials,
+  projectId: 'tunetalesstorage',
+});
 
 
 async function addEvent(req, res){
 
-    let sql = `INSERT INTO TuneTales.eventos (name_event, date, hour, place, photo, id_user, description) VALUES (?, ?, ?, ?, ?, ?, ?);`
-    const{name_event, date, hour, place, photo, id_user, description} = req.body
-    const params = [name_event, date, hour, place, photo, id_user, description]
+    const photo = req.file;
+    const{name_event, date, hour, place, id_user, description} = req.body
+
+
+    let publicUrl = null;
   
-    try{
-        const [result] = await pool.query(sql, params)
-        res.send(result);
-    }   catch(error) {
-        res.send(error);
+    if (req.file != undefined){
+        const bucketName = 'tunetalesfiles';
+        const localFilePath = photo.path; // Ruta local al archivo original
+        const fileName = localFilePath.replace(/^uploads\\/, '');
+
+        const bucket = storage.bucket(bucketName);
+        const file = bucket.file(`imagenes/${fileName}`); 
+
+        // Lee el contenido del archivo local
+        const fileContent = fs.readFileSync(localFilePath);
+
+        // Sube el archivo al bucket
+        await file.save(fileContent);
+
+        publicUrl = `https://storage.googleapis.com/${bucketName}/${file.name}`;
     }
-  }
+
+    const params = [
+        name_event? name_event: null,
+        date? date: null,
+        hour? hour: null,
+        place? place: null,
+        photo? publicUrl: null,
+        id_user? id_user: null,
+        description? description: null
+    ];
+    
+
+    let sql = `INSERT INTO eventos (name_event, date, hour, place, photo, id_user, description) VALUES (?, ?, ?, ?, ?, ?, ?);`
+
+    try {
+
+        let [result] = await pool.query(sql, params);
+        res.send(result);
+    }
+    catch(err) {
+        console.log(err);
+        console.log("No ha sido posible crear el evento")
+    }
+  
+}
 
   async function editEvent(req, res){
 
