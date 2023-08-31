@@ -1,39 +1,47 @@
 const { pool } = require('../database');
+const {Storage} = require('@google-cloud/storage');
+const fs = require('fs');
+const credentials = require('../tunetalesstorage.json');
+
+const storage = new Storage({
+  credentials: credentials,
+  projectId: 'tunetalesstorage',
+});
 
 
 
-async function addEvent(req, res){
-    const photo = req.file;
-    const{name_event, date, hour, place, id_user, description}  = JSON.parse(req.body.update_event);
+async function addEvent(req, res) {
+  try {
+    const image = req.file;
+    const { name_event, date, hour, place, id_user, description } = JSON.parse(req.body.add_event);
 
     let publicUrl = null;
-  
-    if (req.file != undefined){
+
+    if (image) { 
+      console.log("Esta es la foto : "+ image)
       const bucketName = 'tunetalesfiles';
-      const localFilePath = photo.path; // Ruta local al archivo original
-      const fileName = localFilePath.replace(/^uploads\\/, '');
-  
+      const localFilePath = image.path;
+      const fileName = localFilePath.replace(/^uploads[\\\/]/, ''); // Adjusted to handle both Unix and Windows paths
+
       const bucket = storage.bucket(bucketName);
-      const file = bucket.file(`imagenes/${fileName}`); 
-          // Lee el contenido del archivo local
-    const fileContent = fs.readFileSync(localFilePath);
-
-    // Sube el archivo al bucket
-    await file.save(fileContent);
-    publicUrl = `https://storage.googleapis.com/${bucketName}/${file.name}`;
-  }
-
-    let sql = `INSERT INTO TuneTales.eventos (name_event, date, hour, place, photo, id_user, description) VALUES (?, ?, ?, ?, ?, ?, ?);`
-     
-    const params = [name_event, date, hour, place, publicUrl, id_user, description]
-  
-    try{
-        const [result] = await pool.query(sql, params)
-        res.send(result);
-    }   catch(error) {
-        res.send(error);
+      const file = bucket.file(`imagenes/${fileName}`);
+      
+      const fileContent = fs.readFileSync(localFilePath);
+      await file.save(fileContent);
+      publicUrl = `https://storage.googleapis.com/${bucketName}/${file.name}`;
+      console.log("Esta es la publicurl: " + publicUrl);
     }
+
+    const sql = `INSERT INTO TuneTales.eventos (name_event, date, hour, place, photo, id_user, description) VALUES (?, ?, ?, ?, ?, ?, ?);`
+    const params = [name_event, date, hour, place, publicUrl, id_user, description];
+
+    const [result] = await pool.query(sql, params);
+    res.send(result);
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Error al agregar el evento");
   }
+}
 
   async function editEvent(req, res){
     const photo = req.file;
