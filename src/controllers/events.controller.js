@@ -50,6 +50,7 @@ async function addEvent(req, res){
     let sql = `INSERT INTO eventos (name_event, date, hour, place, photo, id_user, description) VALUES (?, ?, ?, ?, ?, ?, ?);`
 
     try {
+      console.log(params);
 
         let [result] = await pool.query(sql, params);
         res.send(result);
@@ -63,19 +64,45 @@ async function addEvent(req, res){
 
   async function editEvent(req, res){
 
+    const photo = req.file;
+    const{name_event, date, hour, place, description, id_evento} = JSON.parse(req.body.nuevoEvento)
+
+    let publicUrl = null;
+
+    if (req.file != undefined){
+      const bucketName = 'tunetalesfiles';
+      const localFilePath = photo.path; // Ruta local al archivo original
+      const fileName = localFilePath.replace(/^uploads\\/, '');
+
+      const bucket = storage.bucket(bucketName);
+      const file = bucket.file(`imagenes/${fileName}`); 
+
+      // Lee el contenido del archivo local
+      const fileContent = fs.readFileSync(localFilePath);
+
+      // Sube el archivo al bucket
+      await file.save(fileContent);
+
+      publicUrl = `https://storage.googleapis.com/${bucketName}/${file.name}`;
+  }
+  const params = [
+    name_event !== null ? name_event : null, 
+    date !== null ? date : null, 
+    hour !== null ? hour : null,
+    place !== null ? place : null, 
+    photo !== null ? publicUrl : null,
+    description !== null ? description : null,
+    id_evento
+  ];
+
     let sql = `UPDATE TuneTales.eventos SET name_event = COALESCE(?,name_event), date = COALESCE(?,date), hour = COALESCE(?,hour), place = COALESCE(?,place), photo = COALESCE(?,photo), description = COALESCE(?,description) WHERE id_evento = ?;`
-    const{name_event, date, hour, place, photo, description, id_evento} = req.body
-    const params = [name_event? name_event: null, 
-                    date? date: null, 
-                    hour? hour: null,
-                    place? place: null, 
-                    photo? photo: null, 
-                    description? description: null,
-                    id_evento? id_evento:null]
+    
+ 
   
     try{
         const [result] = await pool.query(sql, params)
         res.send(result);
+        console.log(params);
     }   catch(error) {
         res.send(error);
     }
@@ -111,6 +138,20 @@ async function addEvent(req, res){
     }
   }
 
+  async function getDetailEvent(req, res){
+
+    let sql = `SELECT * FROM TuneTales.eventos WHERE id_evento = ?;`
+    const{id_evento} = req.query
+    const params = [id_evento]
+  
+    try{
+        const [result] = await pool.query(sql, params)
+        res.send(result);
+    }   catch(error) {
+        res.send(error);
+    }
+  }
+
   async function getAllEvent(req, res) {
 
   
@@ -129,5 +170,6 @@ module.exports = {
     editEvent,
     deleteEvent,
     getEvent,
-    getAllEvent
+    getAllEvent,
+    getDetailEvent
   };
