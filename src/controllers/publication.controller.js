@@ -9,7 +9,7 @@ const storage = new Storage({
     projectId: 'tunetalesstorage',
   });
 
-async function getPublications (req, res){
+  async function getPublications (req, res){
     //seleccionamos todas las publicaciones
     let sql = `SELECT * FROM publicaciones`;
 
@@ -54,24 +54,38 @@ async function getPublicationsParaTi (req,res){
 // obtener publicacion
 async function getPublication (req, res) {
 
-    let sql = `SELECT * FROM publicaciones WHERE id_publicacion = ?;`
-    
-    const id_publicacion = req.params.id_publicacion;
-    const params = [id_publicacion];
-     // const id_publicacion = req.body;
+    let sql = `SELECT * FROM publicaciones WHERE id_publicacion = ?`;
+    let sql2=  `SELECT u.* FROM publicaciones p JOIN
+    usuarios u ON p.id_user = u.id_user WHERE
+    p.id_publicacion = ?`;
+    let sql3= `SELECT * FROM TuneTales.comentarios WHERE id_publicacion = ?`
+    let sql4= `SELECT * FROM likes WHERE id_publicacion =?`
 
-    console.log(sql)
+    const id_publicacion = req.query.id_publicacion;
+    const params = [id_publicacion];
+
+     // const id_publicacion = req.body;
 
     try {
 
         let [result] = await pool.query(sql, params);
-        res.send(result);
+        let [result2] = await pool.query(sql2, params);
+        let [result3] = await pool.query(sql3, params);
+        let [result4] = await pool.query(sql4, params);
+
+        let data = [];
+        data.push(result); 
+        data.push(result2);
+        data.push(result3);
+        data.push(result4);
+
+ 
+        res.send(data);
     }
     catch(err) {
         console.log(err);
     }
 }
-
 // añadir publicación utilizando id_publicacion desde postman 
 async function postPublication (req, res) {
     const photo = req.file;
