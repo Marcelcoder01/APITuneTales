@@ -12,8 +12,16 @@ const corsOptions = {
     optionsSuccessStatus: 204,
 };
 
-// app.use(cors());
-app.use(cors(corsOptions));
+// Configurar cabeceras CORS
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*'); // Esto permite solicitudes desde cualquier origen. Ajusta esto según tus necesidades de seguridad.
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
+  });
+
+app.use(cors());
+// app.use(cors(corsOptions));
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
 app.use(userRouter);
