@@ -6,9 +6,14 @@ const multer =  require ('multer');
 
 const app = express();
 
+const corsOptions = {
+    origin: "https://tune-tales.vercel.app",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    optionsSuccessStatus: 204,
+};
 
-
-app.use(cors());
+// app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
 app.use(userRouter);
