@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "tunetalesstorage",
+  "private_key_id": "a8b1728634b2e8ac17a9953190200d739107eb7d",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDVOoBjKzr7uaYG\nZ1dSywuEzcqQICGnGAf8nI24uORYD3gWB07wZUAbDMtfKAWSR82e+30onpkF6Ixa\nEHAVCl0mHai94uA4BQ4hWlBFBTdoYl+oCSCVc+9dAWA8h56xL0RTPnvwOznqkjEc\nZNqHLZUNsvsDua9hByl4jJMyvqUJLho/rxMVp82D4hEwhY/CJrTTF97xy1mH3siM\nMBwlh6auJKXXVBqB4SzrXYUl9SDZCmk1SeYwDYCLA+d8KPWXHJlxDDla1VA+0K2E\nLdLTAW1bE8W9TFIgPPEUybEIkkITyTRBazeRhGeq/xF2q+nt+5AWmjUhVgAT6VPj\nzWjPbKgNAgMBAAECggEABGkC2co9nJJA7FX72OMJOHR3MZbwiz+0fpWQWtc8JdQg\nFDiPeepmMokHtc6imt1wU874zjvFh3lBWeWII+9EcPLhGBhWseHs4mS3T04l0Ltk\nJhoWOfEdbMuH/YiCkECdhak/r/7Rmlfuuxsc5/nZ4OAoT/HpvjSDN5KUwtJtoGxx\ngQtOQ1PP5N1v/MKE8FS/HpmWysekFa6Ngm4hZIhvcMd5ObFMf3dLgfd4xK9D2u+Y\n5pTqeEr9caU4b9AJOrat6nms6Ig6OwlhfM4FXz8jXXi45xCoYydx5NQ1XeQk0e+I\nhzmYncHSUE9BJLib4oAXS39hQUg6YDtzz/XPsKvHswKBgQD32GoDuaJFuMtBulXH\n00SEB3h+MR+zqBNa/l7GpqSXH0uN6DEtct4acWdP2cDUXc7wGYpx+QQAffvoylc2\nYGuoR+tM87/NIbzgZSe7hm4wt3x5XvRNRYz4jzgAwNgMD2VQW0FCQVBZeybebxjy\nAWtHC/xVh//vNPWcC56BBUeIZwKBgQDcPoMK5Wc5Sdib3ZYbD1UfEk+zBqfldYjp\nu5cCdfLV6kXIG/x0/OuokiPGB4wceRHEDVWuuOLVY+A5bINEgHVVCdrg187ULd1n\nqw/g21n9ulUIOuvPoZa/t7Ew+DcaJS9k14D1V0wfKNgE88phAQ888Ax/cEMmaJGw\n97MURQETawKBgDtvJl0mUwetPPDSImf8/d07fWWlmhiXIa0cetXgeG/VDWVGXSSs\n+x4UO9YmPduvc0SYm16hfJgxngtBGpDrpmWAeajGeyRSBt045MJPhnUgSzU/1A4D\ns76XebKUjDq4Jm+Ssp+U0hPjOHr24WCHfpZXBXftWS6f4JY/Iw+FmJXZAoGAFpVS\nWourSfSIgXL3MU8hK051XaYRETY8E7togJgXjle3UA2OlXBZua9Ce8vKUiEX8UJs\nxr2uhLL5CupVi3Cgl1erWeLHEnqheT/RIP1c/OdeULm59FBdZMsxIBRTkhq+AVkX\noBCTfZ5yiA93cPrq1RTIM0kPmaCfT8YWVr28noECgYAas520pvtd7tIdHcDYp4pN\nSN0jiB3bBwMI+w6dGwSvr3k9K//oQ8XSqlcvTZhApGUnFc7mFOLH+rPJN2h6biLu\n69DLscx/K/VifeJSaeLwv06TpccLAZmF+PIX7WgqLJyb80ZYNj9c44UnJIhXfaAy\n+fghUre+DKvxQyNRI6XsVg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "tunetales@tunetalesstorage.iam.gserviceaccount.com",
+  "client_id": "108744656148841174911",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/tunetales%40tunetalesstorage.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
