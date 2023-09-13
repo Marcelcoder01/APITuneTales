@@ -26,10 +26,8 @@ app.use((req, res, next)=>{
         codigo:404,
         mensaje:"Endpoint no encontrado"
     })
-})
-
+});
 app.use(errorHandling);
 app.use(multer);
-
-
 module.exports = app;
+
