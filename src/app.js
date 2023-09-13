@@ -11,7 +11,7 @@ const corsOptions = {
     allowedHeaders: ['Content-Type', 'Authorization'],     
     optionsSuccessStatus: 204,     
     maxAge: 500,     
-    origin: ['http://localhost:4200','https://tune-tales.vercel.app' ] 
+    origin: ['http://localhost:4200','https://tune-tales.vercel.app', '*' ] 
 }
 app.use(cors(corsOptions));
 
